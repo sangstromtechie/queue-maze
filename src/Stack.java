@@ -1,7 +1,7 @@
 import java.util.NoSuchElementException;
 
 /**
- * Queue - A class for creating and manipulating a stack of nodes containing generic data of type E.
+ * Stack - A class for creating and manipulating a stack of nodes containing generic data of type E.
  *
  * <pre>
  *
@@ -19,30 +19,29 @@ import java.util.NoSuchElementException;
  * @version 1.0
  *
  */
-public class Queue<E> implements Cloneable {
-    private Node<E> head, tail;
+public class Stack<E> implements Cloneable {
+    private Node<E> head;
     private int size;
 
     /**
      * Constructor, initializes private fields for size and head.
      */
-    public Queue() {
+    public Stack() {
     }
 
     /**
      * Creates a new Node with the new element and adds it to the top of the stack.
      * @param element
      */
-    public void enqueue(E element) {
+    public void push(E element) {
         Node<E> newEle;
         if(isEmpty()) {
-            newEle = new Node<E>(element, head, tail);
+            newEle = new Node<E>(element, null, null);
             this.head = newEle;
-            this.tail = newEle;
         } else {
-            newEle = new Node<E>(element, tail, null);
-            this.tail.setNext(newEle);
-            this.tail = newEle;
+            newEle = new Node<E>(element, head, null);
+            this.head.setNext(newEle);
+            this.head = newEle;
         }
         this.size += 1;
     }
@@ -50,32 +49,31 @@ public class Queue<E> implements Cloneable {
     /**
      * @return the top element on the stack without removing it from the data structure.
      */
-    public E front() {
+    public E top() {
         if(isEmpty())
-            throw new IllegalArgumentException();
+            throw  new NoSuchElementException("top() not allowed on Empty Stack!");
 
-        E front = this.head.getElement();
-        return front;
+        E top = this.head.getElement();
+        return top;
     }
 
     /**
      * @return the top element on the stack, removing it from the data structure.
      */
-    public E dequeue() {
-        if(!isEmpty()) {
-            E front = this.head.getElement();
-            if(this.size == 1) {
-                this.head = null;
-                this.tail = null;
-            } else {
-                this.head = this.head.getNext();
-                this.head.setPrevious(null);
-            }
-            this.size -= 1;
-            return front;
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public E pop() {
+        if(isEmpty())
+            throw new NoSuchElementException("pop() not allowed on Empty Stack!");
+
+        E top = this.head.getElement();
+        if(this.size > 1) {
+            this.head = this.head.getPrevious();
+            this.head.setNext(null);
+        } else
+            this.head = null;
+
+        this.size -= 1;
+        return top;
+
     }
 
     /**
@@ -98,13 +96,6 @@ public class Queue<E> implements Cloneable {
      */
     public Node<E> getHead() {
         return head;
-    }
-
-    /**
-     * @return the tail node
-     */
-    public Node<E> getTail() {
-        return tail;
     }
 
     /**

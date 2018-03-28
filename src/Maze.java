@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.Scanner;
 
 /**
@@ -26,7 +27,7 @@ public class Maze {
     private int rowLength;
     private int columnLength;
     private char[][] charMaze;
-    private Queue<Point> pathToFollow;
+    private  Stack<Point> pathToFollow;
 
     /**
      * Constructor, reads a specified file while populating maze details.
@@ -149,8 +150,8 @@ public class Maze {
      * Performs a depth first search using the starting point values obtained in the constructor.
      * @return
      */
-    public String breadthFirstSearch() {
-        pathToFollow = new Queue<Point>();
+    public String depthFirstSearch() {
+        pathToFollow = new Stack<Point>();
 
         recursiveDFS(startPoint.getRow(), startPoint.getColumn());
 
@@ -168,13 +169,84 @@ public class Maze {
     }
 
     /**
+     * Performs a breadth first search using the starting point values obtained in the constructor.
+     * @return
+     */
+    public String breadthFirstSearch() {
+        pathToFollow = new Stack<Point>();
+        Stack<Point> path = new Stack<Point>();
+        Point cur, end, north, east, west, south, parentPoint;
+
+
+        Queue<Point> queue = new Queue<Point>();
+
+        queue.enqueue(startPoint);
+
+        while (!queue.isEmpty()) {
+
+            cur = queue.dequeue();
+            if(charMaze[cur.getRow()][cur.getColumn()] == 'E') {
+                end = cur;
+                path.push(end);
+                parentPoint = end.getParentPoint();
+                while (path.top() != startPoint) {
+                    path.push(parentPoint);
+                    parentPoint = parentPoint.getParentPoint();
+                }
+                break;
+            }
+
+            charMaze[cur.getRow()][cur.getColumn()] = 'V';
+            south = new Point(cur.getRow() + 1, cur.getColumn());
+            if(charMaze[south.getRow()][south.getColumn()] != 'W' && charMaze[south.getRow()][south.getColumn()] != 'V') {
+                queue.enqueue(south);
+                south.setParentPoint(cur);
+            }
+
+            east = new Point(cur.getRow(), cur.getColumn() + 1);
+            if(charMaze[east.getRow()][east.getColumn()] != 'W' && charMaze[east.getRow()][east.getColumn()] != 'V') {
+                queue.enqueue(east);
+                east.setParentPoint(cur);
+            }
+
+            west = new Point(cur.getRow(), cur.getColumn() - 1);
+            if(charMaze[west.getRow()][west.getColumn()] != 'W' && charMaze[west.getRow()][west.getColumn()] != 'V') {
+                queue.enqueue(west);
+                west.setParentPoint(cur);
+            }
+
+            north = new Point(cur.getRow() - 1, cur.getColumn());
+            if(charMaze[north.getRow()][north.getColumn()] != 'W' && charMaze[north.getRow()][north.getColumn()] != 'V') {
+                queue.enqueue(north);
+                north.setParentPoint(cur);
+            }
+        }
+
+        while(!path.isEmpty()) {
+            if(charMaze[path.top().getRow()][path.top().getColumn()] != 'E'){
+                charMaze[path.top().getRow()][path.top().getColumn()] = '.';
+            }
+            pathToFollow.push(path.pop());
+        }
+
+        return printMaze();
+    }
+
+    /**
      * @return the stack created during the search.
      */
-    public Queue<Point> getPathToFollow() {
+    public Stack<Point> getPathToFollow() {
+        Stack<Point> path = new Stack<Point>();
+
         if (pathToFollow == null) {
             throw new UnsupportedOperationException();
         }
-        return pathToFollow;
+
+        while (!pathToFollow.isEmpty()) {
+            path.push(pathToFollow.pop());
+        }
+
+        return path;
     }
 
     /**

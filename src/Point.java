@@ -20,6 +20,7 @@
 public class Point {
 
     private int row, column;
+    private Point parentPoint;
 
     /**
      * Constructor, initializes private row and column fields using parameter values.
@@ -51,5 +52,20 @@ public class Point {
     @Override
     public String toString() {
         return "[" + row + ", " + column + "]";
+    }
+
+    /**
+     * Sets the parent point of the point
+     * @param parentPoint
+     */
+    public void setParentPoint(Point parentPoint) {
+        this.parentPoint = parentPoint;
+    }
+
+    /**
+     * @return the parent point of current point.
+     */
+    public Point getParentPoint() {
+        return parentPoint;
     }
 }
