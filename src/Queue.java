@@ -1,13 +1,13 @@
 import java.util.NoSuchElementException;
 
 /**
- * Queue - A class for creating and manipulating a stack of nodes containing generic data of type E.
+ * Queue - A class for creating and manipulating a queue of nodes containing generic data of type E.
  *
  * <pre>
  *
  * Assignment:     #1
  * Course:         ADEV-3001
- * Date Created:   February 2nd 2018
+ * Date Created:   March 6th 2018
  *
  * Revision Log
  * Who       When          Reason

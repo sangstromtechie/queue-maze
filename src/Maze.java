@@ -176,8 +176,6 @@ public class Maze {
         pathToFollow = new Stack<Point>();
         Stack<Point> path = new Stack<Point>();
         Point cur, end, north, east, west, south, parentPoint;
-
-
         Queue<Point> queue = new Queue<Point>();
 
         queue.enqueue(startPoint);
