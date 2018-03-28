@@ -192,32 +192,29 @@ public class Maze {
                     parentPoint = parentPoint.getParentPoint();
                 }
                 break;
-            }
+            } else {
+                charMaze[cur.getRow()][cur.getColumn()] = 'V';
+                south = new Point(cur.getRow() + 1, cur.getColumn());
+                east = new Point(cur.getRow(), cur.getColumn() + 1);
+                west = new Point(cur.getRow(), cur.getColumn() - 1);
+                north = new Point(cur.getRow() - 1, cur.getColumn());
 
-            charMaze[cur.getRow()][cur.getColumn()] = 'V';
-            south = new Point(cur.getRow() + 1, cur.getColumn());
-            east = new Point(cur.getRow(), cur.getColumn() + 1);
-            west = new Point(cur.getRow(), cur.getColumn() - 1);
-            north = new Point(cur.getRow() - 1, cur.getColumn());
-            
-            if(charMaze[south.getRow()][south.getColumn()] != 'W' && charMaze[south.getRow()][south.getColumn()] != 'V') {
-                queue.enqueue(south);
-                south.setParentPoint(cur);
-            }
-
-            if(charMaze[east.getRow()][east.getColumn()] != 'W' && charMaze[east.getRow()][east.getColumn()] != 'V') {
-                queue.enqueue(east);
-                east.setParentPoint(cur);
-            }
-
-            if(charMaze[west.getRow()][west.getColumn()] != 'W' && charMaze[west.getRow()][west.getColumn()] != 'V') {
-                queue.enqueue(west);
-                west.setParentPoint(cur);
-            }
-
-            if(charMaze[north.getRow()][north.getColumn()] != 'W' && charMaze[north.getRow()][north.getColumn()] != 'V') {
-                queue.enqueue(north);
-                north.setParentPoint(cur);
+                if (charMaze[south.getRow()][south.getColumn()] != 'W' && charMaze[south.getRow()][south.getColumn()] != 'V') {
+                    queue.enqueue(south);
+                    south.setParentPoint(cur);
+                }
+                if (charMaze[east.getRow()][east.getColumn()] != 'W' && charMaze[east.getRow()][east.getColumn()] != 'V') {
+                    queue.enqueue(east);
+                    east.setParentPoint(cur);
+                }
+                if (charMaze[west.getRow()][west.getColumn()] != 'W' && charMaze[west.getRow()][west.getColumn()] != 'V') {
+                    queue.enqueue(west);
+                    west.setParentPoint(cur);
+                }
+                if (charMaze[north.getRow()][north.getColumn()] != 'W' && charMaze[north.getRow()][north.getColumn()] != 'V') {
+                    queue.enqueue(north);
+                    north.setParentPoint(cur);
+                }
             }
         }
 
